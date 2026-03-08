@@ -1,0 +1,3739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fathom - GHG Inventories & Carbon Offsets for SMEs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1a3a2e;
+            --sage: #4a6b5c;
+            --cream: #f4f1ea;
+            --sand: #e8dcc7;
+            --earth: #8b7355;
+            --accent: #d4a574;
+            --charcoal: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--charcoal);
+            background: var(--cream);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Organic background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(74, 107, 92, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 165, 116, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(244, 241, 234, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(74, 107, 92, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--forest);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--sage);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--earth);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--earth);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            padding: 0.75rem 1.75rem;
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            border-radius: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: var(--sage);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 58, 46, 0.15);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 5% 4rem;
+            margin-top: 0;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-text h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
+            color: var(--forest);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-text h1 strong {
+            font-weight: 600;
+            color: var(--earth);
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--sage);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 600px;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .circle-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--sage), var(--forest));
+            opacity: 0.1;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--earth), var(--accent));
+            opacity: 0.15;
+            animation-delay: -2s;
+        }
+
+        .circle-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent), var(--sand));
+            opacity: 0.2;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-30px) scale(1.05);
+            }
+        }
+
+        /* Services Section */
+        .services {
+            padding: 8rem 5%;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--sand) 100%);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--earth);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-description {
+            font-size: 1.15rem;
+            color: var(--sage);
+            line-height: 1.7;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            padding: 8rem 5%;
+            background: var(--cream);
+        }
+
+        /* Purchase Credits Section */
+        .purchase-credits {
+            padding: 8rem 5%;
+            background: var(--sand);
+            position: relative;
+        }
+
+        .purchase-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .purchase-options {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border: 1px solid rgba(74, 107, 92, 0.15);
+            margin-top: 3rem;
+        }
+
+        .purchase-type-toggle {
+            display: flex;
+            gap: 0;
+            margin-bottom: 3rem;
+            background: rgba(74, 107, 92, 0.1);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .type-btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--sage);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .type-btn.active {
+            background: var(--forest);
+            color: var(--cream);
+        }
+
+        .type-btn:hover:not(.active) {
+            background: rgba(74, 107, 92, 0.15);
+        }
+
+        .amount-section {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(74, 107, 92, 0.1);
+        }
+
+        .amount-section label {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .amount-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 400px;
+        }
+
+        .amount-input-wrapper input {
+            flex: 1;
+            padding: 1.25rem 1.5rem;
+            border: 2px solid rgba(74, 107, 92, 0.2);
+            background: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--forest);
+        }
+
+        .amount-input-wrapper input:focus {
+            outline: none;
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(74, 107, 92, 0.1);
+        }
+
+        .unit-label {
+            color: var(--sage);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .portfolio-selection {
+            margin-bottom: 3rem;
+        }
+
+        .portfolio-selection h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .portfolio-option {
+            background: white;
+            border: 2px solid rgba(74, 107, 92, 0.15);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .portfolio-option:hover {
+            border-color: var(--sage);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 58, 46, 0.1);
+        }
+
+        .portfolio-option.selected {
+            border-color: var(--forest);
+            background: rgba(74, 107, 92, 0.05);
+        }
+
+        .portfolio-radio {
+            position: relative;
+        }
+
+        .portfolio-radio input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .portfolio-content {
+            flex: 1;
+        }
+
+        .portfolio-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-tag {
+            display: inline-block;
+            background: var(--earth);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .portfolio-desc {
+            color: var(--sage);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .portfolio-projects-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .portfolio-projects-mini span {
+            color: var(--sage);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .price-summary {
+            background: linear-gradient(135deg, rgba(74, 107, 92, 0.08), rgba(26, 58, 46, 0.08));
+            padding: 2.5rem;
+            border-left: 4px solid var(--earth);
+        }
+
+        .price-breakdown {
+            margin-bottom: 2rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .price-row.total {
+            border-top: 2px solid rgba(74, 107, 92, 0.2);
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .price-label {
+            color: var(--sage);
+            font-size: 1.1rem;
+        }
+
+        .price-value {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .price-row.total .price-label,
+        .price-row.total .price-value {
+            font-size: 1.5rem;
+        }
+
+        .purchase-btn {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .purchase-btn:hover {
+            background: var(--sage);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 58, 46, 0.2);
+        }
+
+        .purchase-disclaimer {
+            text-align: center;
+            color: var(--sage);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            padding: 8rem 5%;
+            background: var(--cream);
+        }
+
+        .calculator-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .calculator-wrapper {
+            margin-top: 4rem;
+            display: grid;
+            gap: 3rem;
+        }
+
+        .calculator-form {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border: 1px solid rgba(74, 107, 92, 0.15);
+        }
+
+        .lca-input-section h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .lca-section {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(74, 107, 92, 0.1);
+        }
+
+        .lca-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .lca-section h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .subsection {
+            margin: 2rem 0;
+        }
+
+        .subsection-label {
+            display: block;
+            color: var(--sage);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .material-inputs {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 1rem;
+            background: rgba(74, 107, 92, 0.08);
+            transition: background 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(74, 107, 92, 0.15);
+        }
+
+        .dropdown-arrow {
+            color: var(--sage);
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .collapsible-content.open {
+            max-height: 2000px;
+            padding-top: 1rem;
+        }
+
+        .material-category {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(74, 107, 92, 0.1);
+        }
+
+        .material-category:last-child {
+            border-bottom: none;
+        }
+
+        .material-category h6 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.1rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-left: 0.75rem;
+            border-left: 3px solid var(--earth);
+        }
+
+        .material-inputs {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .material-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 40px;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(74, 107, 92, 0.03);
+            transition: background 0.2s ease;
+        }
+
+        .material-row:hover {
+            background: rgba(74, 107, 92, 0.08);
+        }
+
+        .material-label {
+            color: var(--sage);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .material-row input {
+            padding: 0.5rem;
+            text-align: right;
+        }
+
+        .unit {
+            color: var(--sage);
+            font-size: 0.9rem;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--sage);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+        .product-entry {
+            background: rgba(74, 107, 92, 0.03);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(74, 107, 92, 0.1);
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(74, 107, 92, 0.15);
+        }
+
+        .product-header h5 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.4rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .remove-product-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            color: #c44;
+            border: 2px solid #c44;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .remove-product-btn:hover {
+            background: #c44;
+            color: white;
+        }
+
+        .add-product-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--sage);
+            border: 2px dashed var(--sage);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .add-product-btn:hover {
+            background: rgba(74, 107, 92, 0.08);
+            border-style: solid;
+            color: var(--forest);
+        }
+
+        .offset-options {
+            background: linear-gradient(135deg, rgba(74, 107, 92, 0.08), rgba(26, 58, 46, 0.08));
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--earth);
+        }
+
+        .offset-options h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .offset-intro {
+            color: var(--sage);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .credit-portfolio {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-card {
+            background: white;
+            padding: 2rem;
+            border-left: 3px solid var(--sage);
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(26, 58, 46, 0.1);
+        }
+
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .portfolio-badge {
+            background: var(--earth);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .portfolio-description {
+            color: var(--sage);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .portfolio-projects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .project-tag {
+            background: rgba(74, 107, 92, 0.1);
+            color: var(--sage);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .offset-amount {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(74, 107, 92, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offset-label {
+            color: var(--sage);
+            font-size: 0.95rem;
+        }
+
+        .offset-value {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .offset-cta {
+            text-align: center;
+            padding-top: 2rem;
+        }
+
+        .per-unit {
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--sage);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid rgba(74, 107, 92, 0.2);
+            background: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(74, 107, 92, 0.1);
+        }
+
+        .ai-input-section h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .instruction-text {
+            color: var(--sage);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .ai-disclaimer {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 4px;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .ai-disclaimer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--sage);
+            line-height: 1.6;
+        }
+
+        .btn-loader {
+            display: inline-block;
+        }
+
+        .calculate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .help-text {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--sage);
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .calculate-btn:hover {
+            background: var(--sage);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 58, 46, 0.2);
+        }
+
+        .calculator-results {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border: 1px solid rgba(74, 107, 92, 0.15);
+        }
+
+        .ai-analysis {
+            background: linear-gradient(135deg, rgba(74, 107, 92, 0.08), rgba(212, 165, 116, 0.08));
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--earth);
+        }
+
+        .ai-analysis h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .ai-analysis p {
+            color: var(--sage);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(74, 107, 92, 0.1);
+        }
+
+        .results-header h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            color: var(--forest);
+            font-weight: 600;
+        }
+
+        .recalculate-btn {
+            padding: 0.5rem 1.25rem;
+            background: transparent;
+            color: var(--sage);
+            border: 2px solid var(--sage);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .recalculate-btn:hover {
+            background: var(--sage);
+            color: white;
+        }
+
+        .total-emissions {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--forest), var(--sage));
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .total-emissions::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .emissions-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 5rem;
+            font-weight: 600;
+            color: var(--cream);
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .emissions-label {
+            font-size: 1.1rem;
+            color: var(--sand);
+            margin-top: 0.5rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .emissions-breakdown {
+            margin-bottom: 3rem;
+        }
+
+        .emissions-breakdown h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .scope-intro {
+            color: var(--sage);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .scope-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(74, 107, 92, 0.03);
+            border-left: 4px solid var(--sage);
+        }
+
+        .scope-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .scope-header h5 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            color: var(--forest);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .scope-definition {
+            color: var(--sage);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .scope1-fill {
+            background: linear-gradient(90deg, #c44, #d66);
+        }
+
+        .scope2-fill {
+            background: linear-gradient(90deg, #f90, #fb3);
+        }
+
+        .scope3-fill {
+            background: linear-gradient(90deg, var(--sage), var(--earth));
+        }
+
+        .breakdown-item {
+            display: grid;
+            grid-template-columns: 200px 1fr 120px;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding: 1rem;
+            background: rgba(74, 107, 92, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-item:hover {
+            background: rgba(74, 107, 92, 0.08);
+        }
+
+        .breakdown-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--sage);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .breakdown-icon {
+            font-size: 1.5rem;
+        }
+
+        .breakdown-bar {
+            height: 24px;
+            background: rgba(74, 107, 92, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breakdown-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sage), var(--earth));
+            transition: width 1s ease-out;
+            width: 0;
+        }
+
+        .breakdown-value {
+            text-align: right;
+            color: var(--forest);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .comparison {
+            background: rgba(212, 165, 116, 0.1);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .comparison h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .comparison-item {
+            text-align: center;
+        }
+
+        .comparison-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--earth);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-text {
+            font-size: 0.9rem;
+            color: var(--sage);
+        }
+
+        .next-steps {
+            text-align: center;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(26, 58, 46, 0.05), rgba(74, 107, 92, 0.05));
+            border: 2px dashed rgba(74, 107, 92, 0.2);
+        }
+
+        .next-steps h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .next-steps p {
+            color: var(--sage);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--forest);
+            color: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Crimson Pro', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 5%;
+            background: var(--forest);
+            color: var(--cream);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--sage) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .cta-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            color: var(--sand);
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--forest);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .btn-primary:hover {
+            background: var(--cream);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 165, 116, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--cream);
+            border: 2px solid var(--cream);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--cream);
+            color: var(--forest);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--sand);
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(232, 220, 199, 0.2);
+        }
+
+        .footer-about h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .footer-about p {
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .footer-column h4 {
+            color: var(--cream);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column ul li a {
+            color: var(--sand);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-visual {
+                height: 400px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .breakdown-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 0.75rem;
+            }
+
+            .breakdown-bar {
+                order: 2;
+            }
+
+            .breakdown-value {
+                order: 3;
+                text-align: center;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Portfolio detail panel */
+        .portfolio-detail-panel {
+            margin-top: 2rem;
+            border-radius: 4px;
+            overflow: hidden;
+            animation: fadeInUp 0.35s ease-out;
+        }
+
+        .pdp-header {
+            padding: 2rem 2.5rem 1.5rem;
+        }
+
+        .pdp-tagline {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-family: monospace;
+            margin-bottom: 0.4rem;
+            opacity: 0.65;
+            color: #fff;
+        }
+
+        .pdp-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .pdp-meta {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .pdp-meta-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-family: monospace;
+            opacity: 0.45;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .pdp-meta-value {
+            font-family: monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .pdp-desc {
+            margin-top: 1.25rem;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.78);
+            max-width: 780px;
+        }
+
+        .pdp-projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 0 2.5rem 2rem;
+        }
+
+        .pdp-project {
+            padding: 1.25rem 1.5rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .pdp-project-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-size: 0.62rem;
+            font-family: monospace;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            padding: 2px 7px;
+            border-radius: 3px;
+        }
+
+        .pdp-project-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            padding-right: 5.5rem;
+            line-height: 1.25;
+        }
+
+        .pdp-project-chips {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.7rem;
+            flex-wrap: wrap;
+        }
+
+        .pdp-project-location {
+            font-size: 0.78rem;
+            color: #555;
+        }
+
+        .pdp-project-type {
+            font-size: 0.68rem;
+            font-family: monospace;
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.04em;
+        }
+
+        .pdp-project-highlight {
+            font-size: 0.84rem;
+            line-height: 1.6;
+            color: #3a3a3a;
+            margin-bottom: 0.75rem;
+        }
+
+        .pdp-project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.65rem;
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .pdp-project-registry {
+            font-size: 0.68rem;
+            font-family: monospace;
+            color: #888;
+        }
+
+        .pdp-footer-note {
+            padding: 0.75rem 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.68rem;
+            font-family: monospace;
+            color: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .pdp-projects { grid-template-columns: 1fr; padding: 0 1.25rem 1.5rem; }
+            .pdp-header { padding: 1.5rem 1.25rem 1rem; }
+        }
+
+        /* Resource sections */
+        .resource-section {
+            padding: 7rem 5%;
+            position: relative;
+        }
+
+        .resource-section:nth-child(odd) { background: var(--cream); }
+        .resource-section:nth-child(even) { background: var(--sand); }
+
+        .resource-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .resource-section .section-label { margin-bottom: 0.75rem; }
+
+        .resource-body {
+            margin-top: 2.5rem;
+            color: var(--sage);
+            line-height: 1.85;
+            font-size: 1.05rem;
+        }
+
+        .resource-body p { margin-bottom: 1.4rem; }
+        .resource-body p:last-child { margin-bottom: 0; }
+
+        .resource-body h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--forest);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .resource-body h3:first-child { margin-top: 0; }
+
+        .resource-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .resource-card {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(74, 107, 92, 0.15);
+            padding: 1.75rem 2rem;
+        }
+
+        .resource-card-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
+
+        .resource-card h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card p {
+            color: var(--sage);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        /* Integrity comparison table */
+        .integrity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .integrity-col {
+            padding: 1.75rem 2rem;
+            border: 2px solid;
+        }
+
+        .integrity-col.good { border-color: rgba(74,107,92,0.4); background: rgba(74,107,92,0.05); }
+        .integrity-col.bad  { border-color: rgba(139,115,85,0.3); background: rgba(212,165,116,0.06); }
+
+        .integrity-col-badge {
+            display: inline-block;
+            padding: 0.3rem 0.9rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.25rem;
+            border-radius: 2px;
+        }
+
+        .integrity-col.good .integrity-col-badge { background: var(--forest); color: var(--cream); }
+        .integrity-col.bad  .integrity-col-badge { background: var(--earth); color: var(--cream); }
+
+        .integrity-col h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 1rem;
+        }
+
+        .integrity-col ul { list-style: none; }
+
+        .integrity-col ul li {
+            padding: 0.45rem 0;
+            color: var(--sage);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .integrity-col ul li span { flex-shrink: 0; font-weight: 700; }
+
+        /* FAQ accordion */
+        .faq-list { margin-top: 2.5rem; }
+
+        .faq-item { border-bottom: 1px solid rgba(74,107,92,0.15); }
+        .faq-item:first-child { border-top: 1px solid rgba(74,107,92,0.15); }
+
+        .faq-question {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            gap: 1.5rem;
+        }
+
+        .faq-q-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--forest);
+            line-height: 1.4;
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover .faq-q-text { color: var(--earth); }
+
+        .faq-icon {
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(74,107,92,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--sage);
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .faq-item.open .faq-icon {
+            background: var(--forest);
+            border-color: var(--forest);
+            color: var(--cream);
+            transform: rotate(45deg);
+        }
+
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+        .faq-item.open .faq-answer { max-height: 800px; }
+
+        .faq-answer-inner {
+            padding: 0 0 1.5rem;
+            color: var(--sage);
+            line-height: 1.8;
+            font-size: 0.98rem;
+        }
+
+        .faq-answer-inner p { margin-bottom: 0.75rem; }
+        .faq-answer-inner p:last-child { margin-bottom: 0; }
+
+        .faq-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--earth);
+            font-weight: 700;
+            margin: 2.5rem 0 0.25rem;
+        }
+
+        .faq-category:first-child { margin-top: 0; }
+
+        @media (max-width: 768px) {
+            .resource-cards, .integrity-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Resources page */
+        .resources-hero {
+            padding: 10rem 5% 5rem;
+            background: var(--forest);
+            text-align: center;
+        }
+
+        .resources-hero-inner { max-width: 700px; margin: 0 auto; }
+
+        .resources-hero .section-label { color: var(--accent); margin-bottom: 1rem; }
+
+        .resources-hero h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 300;
+            color: var(--cream);
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+        }
+
+        .resources-hero p {
+            color: rgba(244,241,234,0.72);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .resources-nav-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .res-pill {
+            padding: 0.55rem 1.4rem;
+            border: 1.5px solid rgba(244,241,234,0.3);
+            color: rgba(244,241,234,0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 100px;
+            transition: all 0.25s;
+        }
+
+        .res-pill:hover {
+            background: rgba(244,241,234,0.12);
+            border-color: rgba(244,241,234,0.6);
+            color: var(--cream);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <svg width="160" height="44" viewBox="0 0 180 50" fill="none" xmlns="http://www.w3.org/2000/svg"><!-- Abstract symbol - layered waves representing depth/fathom -->
+                  <g transform="translate(0, 12)">
+                    
+                    <path d="M5 13 Q8 8, 12 10 T19 13 Q22 15, 25 13" 
+                          stroke="#1a3a2e" 
+                          stroke-width="2.5" 
+                          fill="none" 
+                          opacity="0.4"/>
+                    
+                    
+                    <path d="M7 13 Q10 9, 14 11 T21 13" 
+                          stroke="#4a6b5c" 
+                          stroke-width="2.5" 
+                          fill="none" 
+                          opacity="0.7"/>
+                    
+                    
+                    <path d="M9 13 Q12 10, 16 12 T23 13" 
+                          stroke="#1a3a2e" 
+                          stroke-width="3" 
+                          fill="none"/>
+                    
+                    <!-- Depth indicator - small circle -->
+                    <circle cx="16" cy="13" r="2" fill="#8b7355"/>
+                  </g>
+                  
+                  
+                  <g transform="translate(40, 0)">
+                    <text x="0" y="32" 
+                          font-family="'Space Grotesk', 'Futura', 'Century Gothic', sans-serif" 
+                          font-size="32" 
+                          font-weight="700" 
+                          fill="#1a3a2e" 
+                          letter-spacing="0.05em">
+                      FATHOM
+                    </text>
+                  </g>
+                </svg>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#purchase">Purchase Credits</a></li>
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#what-are-credits">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="cta-button">Get Started</a>
+        </nav>
+    </header>
+    <div id="page-home">
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Achieve <strong>carbon neutrality</strong> through investing in nature</h1>
+                <p>We provide free GHG inventories and reduction strategies for SMEs, then connect you with industry-specific verified carbon credits to achieve carbon neutrality.</p>
+                <a href="#contact" class="cta-button">Get Free Assessment</a>
+                
+
+            </div>
+            
+            <div class="hero-visual">
+                <div class="circle-container">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                    <div class="circle circle-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="section-header">
+            <div class="section-label">What We Offer</div>
+            <h2 class="section-title">Carbon Neutrality Made Simple</h2>
+            <p class="section-description">We provide free GHG inventories and carbon reduction strategies, then connect you with curated carbon credit portfolios designed specifically for your industry.</p>
+        </div>
+
+        <div class="process-container" style="max-width:1400px; margin:0 auto;">
+            <div class="process-steps" style="margin-top:3rem;">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Measure</h4>
+                    <p>Free, comprehensive GHG accounting across Scope 1, 2, and 3 — giving you full visibility into your emissions footprint.</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Reduce</h4>
+                    <p>Before you offset, we help you reduce. Our complimentary consulting identifies cost-saving opportunities to cut emissions at the source.</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Offset</h4>
+                    <p>Purchase verified carbon credits from our curated nature-based portfolios — each tailored to your industry and independently certified.</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Certify</h4>
+                    <p>Achieve recognised carbon neutral status. We provide full certification support and materials so you can communicate your achievement with confidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="purchase" class="purchase-credits">
+        <div class="purchase-container">
+            <div class="section-header">
+                <div class="section-label">Purchase Carbon Credits</div>
+                <h2 class="section-title">Offset Your Footprint Today</h2>
+                <p class="section-description">Select from our curated carbon credit portfolios and choose between one-time purchase or ongoing subscription.</p>
+            </div>
+
+            <div class="purchase-options">
+                
+                <div class="purchase-type-toggle">
+                    <button class="type-btn active" onclick="togglePurchaseType('onetime')" id="onetimeBtn">One-Time Purchase</button>
+                    <button class="type-btn" onclick="togglePurchaseType('subscription')" id="subscriptionBtn">Monthly Subscription</button>
+                </div>
+
+                
+                <div class="amount-section">
+                    <label for="tonnesAmount">How many tonnes of CO₂ do you want to offset?</label>
+                    <div class="amount-input-wrapper">
+                        <input type="number" id="tonnesAmount" placeholder="10" min="1" value="10" oninput="updatePurchasePrice()">
+                        <span class="unit-label">tonnes CO₂e</span>
+                    </div>
+                    <span class="help-text">Not sure? Use our calculator below to estimate your footprint.</span>
+                </div>
+
+                
+                <div class="portfolio-selection">
+                    <h3>Select Your Carbon Credit Portfolio</h3>
+                    <div class="portfolio-grid">
+                        <div class="portfolio-option" data-portfolio="canopy" onclick="selectPortfolio('canopy')">
+                            <div class="portfolio-radio">
+                                <input type="radio" name="portfolio" id="canopy" value="canopy" checked>
+                                <label for="canopy"></label>
+                            </div>
+                            <div class="portfolio-content">
+                                <div class="portfolio-title">🌳 The Canopy Shield</div>
+                                <div class="portfolio-tag" style="background:#2D5016;">Tropical Forest Defense</div>
+                                <p class="portfolio-desc">Maximum forest protection anchored in Borneo peatlands, Peruvian Amazon, and Indonesian rainforest — where deforestation pressure is highest.</p>
+                                <div class="portfolio-projects-mini">
+                                    <span>📍 Katingan Peatland, Indonesia</span>
+                                    <span>📍 Rimba Raya Reserve, Kalimantan</span>
+                                    <span>📍 Kowen Antami REDD+, Peru</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-option" data-portfolio="horizon" onclick="selectPortfolio('horizon')">
+                            <div class="portfolio-radio">
+                                <input type="radio" name="portfolio" id="horizon" value="horizon">
+                                <label for="horizon"></label>
+                            </div>
+                            <div class="portfolio-content">
+                                <div class="portfolio-title">🌾 The Open Horizon</div>
+                                <div class="portfolio-tag" style="background:#6B4C11;">Grassland &amp; Soil Carbon</div>
+                                <p class="portfolio-desc">Sequestration at scale beneath the ground — converting degraded ranchlands and African savannahs into carbon-dense ecosystems while supporting smallholder farmers.</p>
+                                <div class="portfolio-projects-mini">
+                                    <span>📍 Boomitra Grasslands, Paraguay</span>
+                                    <span>📍 Northern Kenya Savannah</span>
+                                    <span>📍 U.S. Southeast IFM (ACR)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-option" data-portfolio="community" onclick="selectPortfolio('community')">
+                            <div class="portfolio-radio">
+                                <input type="radio" name="portfolio" id="community" value="community">
+                                <label for="community"></label>
+                            </div>
+                            <div class="portfolio-content">
+                                <div class="portfolio-title">🤝 The Human Root</div>
+                                <div class="portfolio-tag" style="background:#1A3A5C;">Community-Led Climate Action</div>
+                                <p class="portfolio-desc">Carbon dollars that land in the hands of people who live closest to the land — indigenous-led and community-owned projects with strong social SDG alignment.</p>
+                                <div class="portfolio-projects-mini">
+                                    <span>📍 Mikoko Pamoja, Gazi Bay Kenya</span>
+                                    <span>📍 Humbo Regeneration, Ethiopia</span>
+                                    <span>📍 San Crisanto Mangroves, Mexico</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-option" data-portfolio="restoration" onclick="selectPortfolio('restoration')">
+                            <div class="portfolio-radio">
+                                <input type="radio" name="portfolio" id="restoration" value="restoration">
+                                <label for="restoration"></label>
+                            </div>
+                            <div class="portfolio-content">
+                                <div class="portfolio-title">🌱 The Green Return</div>
+                                <div class="portfolio-tag" style="background:#1C4A3A;">Land Restoration &amp; Reforestation</div>
+                                <p class="portfolio-desc">Removal credits — not just avoidance. These projects actively rebuild what was lost, increasingly preferred by buyers aligning with SBTi net-zero standards.</p>
+                                <div class="portfolio-projects-mini">
+                                    <span>📍 Kwahu Landscape, Ghana</span>
+                                    <span>📍 Together for Forests, Peru</span>
+                                    <span>📍 Boomitra Soil Carbon, Paraguay</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div id="portfolio-detail" class="portfolio-detail-panel" style="display:none;"></div>
+                </div>
+
+                
+                <div class="price-summary">
+                    <div class="price-breakdown">
+                        <div class="price-row">
+                            <span class="price-label"><span id="tonnesDisplay">10</span> tonnes CO₂e</span>
+                            <span class="price-value">$<span id="basePrice">120</span></span>
+                        </div>
+                        <div class="price-row total">
+                            <span class="price-label"><strong id="billingFrequency">Total</strong></span>
+                            <span class="price-value"><strong>$<span id="totalPrice">120</span></strong></span>
+                        </div>
+                    </div>
+                    <button class="purchase-btn" onclick="proceedToPurchase()">
+                        <span id="purchaseBtnText">Purchase Carbon Credits</span>
+                    </button>
+                    <p class="purchase-disclaimer">All credits are verified and retired upon purchase. You'll receive a certificate of offset within 24 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="calculator">
+        <div class="calculator-container">
+            <div class="section-header">
+                <div class="section-label">Free Calculator</div>
+                <h2 class="section-title">GHG Emissions Calculator</h2>
+                <p class="section-description">Calculate your company's greenhouse gas emissions across Scope 1, 2, and 3 with our comprehensive assessment tool.</p>
+            </div>
+
+            <div class="calculator-wrapper">
+                <div class="calculator-form">
+                    
+                    <div class="lca-input-section">
+                            <h3>Comprehensive Lifecycle Assessment</h3>
+                            <p class="instruction-text">Answer detailed questions about each stage of your product lifecycle for a precise carbon calculation.</p>
+
+                            
+                            <div class="lca-section">
+                                <h4>1. Brand Overview</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Brand Type</label>
+                                        <select id="brandType">
+                                            <option value="apparel">Apparel</option>
+                                            <option value="jewelry">Jewelry</option>
+                                            <option value="accessories">Accessories</option>
+                                            <option value="mixed">Mixed</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Average Order Value ($)</label>
+                                        <input type="number" id="aov" placeholder="150" min="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="lca-section">
+                                <h4>2. Products in Your Catalog</h4>
+                                <p class="instruction-text">Add each product type in your catalog. We'll calculate the total footprint across all products.</p>
+                                
+                                <div id="productsContainer">
+                                    
+                                    <div class="product-entry" data-product-index="0">
+                                        <div class="product-header">
+                                            <h5>Product 1</h5>
+                                            <button type="button" class="remove-product-btn" onclick="removeProduct(0)" style="display: none;">Remove</button>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Product Name</label>
+                                                <input type="text" class="productName" placeholder="e.g., Classic T-Shirt" data-index="0">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Annual Units Sold</label>
+                                                <input type="number" class="annualUnits" placeholder="10000" min="0" data-index="0">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Product Weight (grams)</label>
+                                                <input type="number" class="productWeight" placeholder="150" min="0" data-index="0">
+                                            </div>
+                                        </div>
+
+                                        <div class="subsection">
+                                            <div class="collapsible-header" onclick="toggleMaterialsDropdown(0)">
+                                                <label class="subsection-label">Materials Composition (% of total)</label>
+                                                <span class="dropdown-arrow">▼</span>
+                                            </div>
+                                            <div class="material-inputs collapsible-content" id="materialsDropdown0">
+                                                <div class="material-category">
+                                                    <h6>Natural Fibers</h6>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Cotton (organic)</span>
+                                                        <input type="number" class="matCottonOrganic" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Cotton (conventional)</span>
+                                                        <input type="number" class="matCottonConv" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Linen</span>
+                                                        <input type="number" class="matLinen" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Hemp</span>
+                                                        <input type="number" class="matHemp" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Wool</span>
+                                                        <input type="number" class="matWool" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Silk</span>
+                                                        <input type="number" class="matSilk" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="material-category">
+                                                    <h6>Synthetic Fibers</h6>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Polyester (virgin)</span>
+                                                        <input type="number" class="matPolyester" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Polyester (recycled)</span>
+                                                        <input type="number" class="matPolyesterRec" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Nylon</span>
+                                                        <input type="number" class="matNylon" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Acrylic</span>
+                                                        <input type="number" class="matAcrylic" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Spandex/Elastane</span>
+                                                        <input type="number" class="matSpandex" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="material-category">
+                                                    <h6>Semi-Synthetic Fibers</h6>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Viscose/Rayon</span>
+                                                        <input type="number" class="matViscose" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Lyocell (Tencel)</span>
+                                                        <input type="number" class="matLyocell" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Modal</span>
+                                                        <input type="number" class="matModal" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="material-category">
+                                                    <h6>Leather & Animal Materials</h6>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Leather (cowhide)</span>
+                                                        <input type="number" class="matLeather" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Suede</span>
+                                                        <input type="number" class="matSuede" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Vegan Leather (PU)</span>
+                                                        <input type="number" class="matVeganLeather" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="material-category">
+                                                    <h6>Metals & Precious Materials</h6>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Gold (newly mined)</span>
+                                                        <input type="number" class="matGoldNew" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Gold (recycled)</span>
+                                                        <input type="number" class="matGoldRec" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Silver (newly mined)</span>
+                                                        <input type="number" class="matSilverNew" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Silver (recycled)</span>
+                                                        <input type="number" class="matSilverRec" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Brass</span>
+                                                        <input type="number" class="matBrass" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Stainless Steel</span>
+                                                        <input type="number" class="matSteel" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Gemstones</span>
+                                                        <input type="number" class="matGemstones" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Pearls</span>
+                                                        <input type="number" class="matPearls" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="material-category">
+                                                    <h6>Other Materials</h6>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Rubber</span>
+                                                        <input type="number" class="matRubber" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">EVA Foam</span>
+                                                        <input type="number" class="matEVA" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                    <div class="material-row">
+                                                        <span class="material-label">Cork</span>
+                                                        <input type="number" class="matCork" min="0" max="100" placeholder="0" data-index="0">
+                                                        <span class="unit">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="add-product-btn" onclick="addProduct()">+ Add Another Product</button>
+                            </div>
+
+                            
+                            <div class="lca-section">
+                                <h4>3. Manufacturing & Production</h4>
+
+                                <div class="form-group">
+                                    <label>Manufacturing Location</label>
+                                    <select id="mfgLocation">
+                                        <option value="china">China</option>
+                                        <option value="india">India</option>
+                                        <option value="bangladesh">Bangladesh</option>
+                                        <option value="vietnam">Vietnam</option>
+                                        <option value="usa">USA</option>
+                                        <option value="mexico">Mexico</option>
+                                        <option value="portugal">Portugal</option>
+                                        <option value="italy">Italy</option>
+                                        <option value="turkey">Turkey</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Production Energy Mix</label>
+                                    <select id="energyMix">
+                                        <option value="grid">Standard Grid (country average)</option>
+                                        <option value="renewable">100% Renewable Energy</option>
+                                        <option value="mixed">Partial Renewable (50%+)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            
+                            <div class="lca-section">
+                                <h4>4. Transportation & Logistics</h4>
+                                
+                                <div class="form-group">
+                                    <label>Factory to Warehouse Transit</label>
+                                    <select id="factoryTransport">
+                                        <option value="sea">Ocean Freight</option>
+                                        <option value="air">Air Freight</option>
+                                        <option value="truck">Truck</option>
+                                        <option value="mixed">Mixed (mostly ocean)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Average Distance Factory → Warehouse (miles)</label>
+                                    <input type="number" id="factoryDistance" placeholder="7000" min="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Warehouse/Fulfillment Location</label>
+                                    <select id="warehouseLocation">
+                                        <option value="usa-west">USA - West Coast</option>
+                                        <option value="usa-east">USA - East Coast</option>
+                                        <option value="usa-central">USA - Central</option>
+                                        <option value="europe">Europe</option>
+                                        <option value="asia">Asia</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Primary Customer Base</label>
+                                    <select id="customerBase">
+                                        <option value="usa">USA</option>
+                                        <option value="usa-canada">USA & Canada</option>
+                                        <option value="global">Global (mixed)</option>
+                                        <option value="europe">Europe</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Last-Mile Delivery Method</label>
+                                    <select id="lastMile">
+                                        <option value="standard">Standard Ground Shipping</option>
+                                        <option value="express">Express/2-day</option>
+                                        <option value="overnight">Overnight/Air</option>
+                                        <option value="mixed">Mixed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            
+                            <div class="lca-section">
+                                <h4>5. Packaging</h4>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Primary Packaging Material</label>
+                                        <select id="primaryPackaging">
+                                            <option value="cardboard-recycled">Recycled Cardboard</option>
+                                            <option value="cardboard-virgin">Virgin Cardboard</option>
+                                            <option value="plastic-poly">Plastic Poly Mailers</option>
+                                            <option value="plastic-recycled">Recycled Plastic Mailers</option>
+                                            <option value="compostable">Compostable Mailers</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Packaging Weight (grams)</label>
+                                        <input type="number" id="packagingWeight" placeholder="50" min="0">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Additional Packaging Elements</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="checkbox" id="pkgTissue"> Tissue Paper</label>
+                                        <label><input type="checkbox" id="pkgBox"> Gift Box</label>
+                                        <label><input type="checkbox" id="pkgRibbon"> Ribbon/Twine</label>
+                                        <label><input type="checkbox" id="pkgSticker"> Branded Stickers</label>
+                                        <label><input type="checkbox" id="pkgCard"> Thank You Card</label>
+                                        <label><input type="checkbox" id="pkgBubble"> Bubble Wrap/Padding</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="lca-section">
+                                <h4>6. Digital Operations</h4>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Ecommerce Platform</label>
+                                        <select id="ecomPlatform">
+                                            <option value="shopify">Shopify</option>
+                                            <option value="woocommerce">WooCommerce</option>
+                                            <option value="bigcommerce">BigCommerce</option>
+                                            <option value="custom">Custom/Self-Hosted</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Monthly Website Visitors</label>
+                                        <input type="number" id="monthlyVisitors" placeholder="50000" min="0">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Digital Marketing Spend (annual $)</label>
+                                    <input type="number" id="marketingSpend" placeholder="100000" min="0">
+                                    <span class="help-text">Used to estimate server/ad platform carbon footprint</span>
+                                </div>
+                            </div>
+
+                            
+                            <div class="lca-section">
+                                <h4>7. Returns & End of Life</h4>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Return Rate (%)</label>
+                                        <input type="number" id="returnRate" placeholder="15" min="0" max="100">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Returned Items Resold (%)</label>
+                                        <input type="number" id="resoldRate" placeholder="80" min="0" max="100">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="calculate-btn" onclick="calculateDetailedLCA()" id="detailedCalcBtn">
+                                <span class="btn-text">Calculate Full LCA</span>
+                                <span class="btn-loader" style="display: none;">Calculating...</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ai-disclaimer">
+                        <p>⚠️ This is an estimate only. A comprehensive GHG inventory is provided free upon request when you work with us.</p>
+                    </div>
+                </div>
+
+                <div class="calculator-results" id="results" style="display: none;">
+                    <div class="results-header">
+                        <h3>Your Carbon Footprint Analysis</h3>
+                        <button class="recalculate-btn" onclick="resetCalculator()">Recalculate</button>
+                    </div>
+                    
+                    <div class="ai-analysis" id="aiAnalysis">
+                        <h4>🤖 AI Analysis</h4>
+                        <p id="aiInsight"></p>
+                    </div>
+                    
+                    <div class="total-emissions">
+                        <div class="emissions-number" id="totalEmissions">0</div>
+                        <div class="emissions-label">tonnes CO₂e per year</div>
+                        <div class="per-unit" id="perUnit" style="font-size: 1rem; color: var(--sand); margin-top: 1rem;"></div>
+                    </div>
+
+                    <div class="emissions-breakdown">
+                        <h4>Emissions by GHG Protocol Scope</h4>
+                        <p class="scope-intro">The GHG Protocol categorizes emissions into three scopes based on where they occur in your value chain:</p>
+                        
+                        <div class="scope-section">
+                            <div class="scope-header">
+                                <h5>Scope 1: Direct Emissions</h5>
+                                <p class="scope-definition">Emissions from sources you own or control directly (company vehicles, facilities, etc.)</p>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">
+                                    <span class="breakdown-icon">🏭</span>
+                                    Manufacturing Energy (owned facilities)
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill scope1-fill" id="scope1Bar"></div>
+                                </div>
+                                <div class="breakdown-value" id="scope1Value">0</div>
+                            </div>
+                        </div>
+
+                        <div class="scope-section">
+                            <div class="scope-header">
+                                <h5>Scope 2: Indirect Energy Emissions</h5>
+                                <p class="scope-definition">Emissions from purchased electricity, steam, heating, and cooling</p>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">
+                                    <span class="breakdown-icon">⚡</span>
+                                    Purchased Energy & Digital Operations
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill scope2-fill" id="scope2Bar"></div>
+                                </div>
+                                <div class="breakdown-value" id="scope2Value">0</div>
+                            </div>
+                        </div>
+
+                        <div class="scope-section">
+                            <div class="scope-header">
+                                <h5>Scope 3: Value Chain Emissions</h5>
+                                <p class="scope-definition">All other indirect emissions in your value chain (materials, transportation, packaging, end-of-life)</p>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">
+                                    <span class="breakdown-icon">🧵</span>
+                                    Raw Materials & Production
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill scope3-fill" id="materialsBar"></div>
+                                </div>
+                                <div class="breakdown-value" id="materialsValue">0</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">
+                                    <span class="breakdown-icon">🚢</span>
+                                    Transportation & Logistics
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill scope3-fill" id="transportBar"></div>
+                                </div>
+                                <div class="breakdown-value" id="transportValue">0</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">
+                                    <span class="breakdown-icon">📦</span>
+                                    Packaging
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill scope3-fill" id="packagingBar"></div>
+                                </div>
+                                <div class="breakdown-value" id="packagingValue">0</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-label">
+                                    <span class="breakdown-icon">↩️</span>
+                                    Returns & End-of-Life
+                                </div>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill scope3-fill" id="returnsBar"></div>
+                                </div>
+                                <div class="breakdown-value" id="returnsValue">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comparison">
+                        <h4>That's equivalent to:</h4>
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <div class="comparison-icon">🌳</div>
+                                <div class="comparison-number" id="trees">0</div>
+                                <div class="comparison-text">trees needed to offset annually</div>
+                            </div>
+                            <div class="comparison-item">
+                                <div class="comparison-icon">✈️</div>
+                                <div class="comparison-number" id="flights">0</div>
+                                <div class="comparison-text">NYC to LA flights</div>
+                            </div>
+                            <div class="comparison-item">
+                                <div class="comparison-icon">📱</div>
+                                <div class="comparison-number" id="smartphones">0</div>
+                                <div class="comparison-text">smartphones manufactured</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="offset-options" id="offsetOptions">
+                        <h4>Offset Your Carbon Footprint</h4>
+                        <p class="offset-intro">We've curated carbon credit portfolios specifically designed for your industry. Each blend combines projects that align with your brand values and deliver measurable impact.</p>
+                        
+                        <div class="credit-portfolio" id="creditPortfolio">
+                            
+                        </div>
+
+                        <div class="offset-cta">
+                            <button class="cta-button" onclick="window.location.href='#contact'">Explore Carbon Credit Options</button>
+                        </div>
+                    </div>
+
+                    <div class="next-steps">
+                        <h4>Ready to take action?</h4>
+                        <p>Get a comprehensive GHG inventory absolutely free, then explore our curated carbon credit portfolios designed for your industry.</p>
+                        <button class="cta-button" onclick="window.location.href='#contact'">Get Free GHG Inventory</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to begin your carbon neutral journey?</h2>
+            <p>Join hundreds of forward-thinking SMEs making a real difference. Let's create a sustainable future together.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Schedule Consultation</a>
+                <a href="#" class="btn-secondary">Download Brochure</a>
+            </div>
+        </div>
+    </section>
+
+    </div> <!-- end #page-home -->
+
+    <!-- ═══════════════ RESOURCES PAGE ═══════════════ -->
+    <div id="page-resources" style="display:none;">
+
+        <div class="resources-hero">
+            <div class="resources-hero-inner">
+                <span class="section-label">Knowledge Base</span>
+                <h1>Resources</h1>
+                <p>Everything you need to understand carbon neutrality, carbon credits, and what the journey looks like for your business.</p>
+                <div class="resources-nav-pills">
+                    <a href="#" onclick="scrollToResource('what-are-credits'); return false;" class="res-pill">What Are Carbon Credits?</a>
+                    <a href="#" onclick="scrollToResource('why-carbon-neutral'); return false;" class="res-pill">Why Go Carbon Neutral?</a>
+                    <a href="#" onclick="scrollToResource('faq'); return false;" class="res-pill">FAQ</a>
+                    <a href="#" onclick="scrollToResource('res-calculator'); return false;" class="res-pill">Calculator</a>
+                </div>
+            </div>
+        </div>
+
+    <!-- WHAT ARE CARBON CREDITS -->
+    <section id="what-are-credits" class="resource-section">
+        <div class="resource-container">
+            <div class="section-header" style="text-align:left; margin-bottom:0;">
+                <div class="section-label">Understanding Carbon Credits</div>
+                <h2 class="section-title">What Are Carbon Credits?</h2>
+            </div>
+            <div class="resource-body">
+                <p>A carbon credit represents the verified removal or prevention of one tonne of CO₂ equivalent from entering the atmosphere. When your business purchases and retires a credit, you can legitimately claim an offset against that tonne of emissions in your own footprint.</p>
+                <p>Credits are generated by projects that either capture carbon — like reforestation or soil sequestration — or prevent emissions that would otherwise occur, such as protecting threatened forests or replacing fossil fuels with renewables. Each project is independently audited and verified against internationally recognised standards before any credits are issued.</p>
+                <p>Retirement is the critical step: once a credit is retired in a public registry on your behalf, it can never be sold or used again — ensuring your offset is genuinely additional and not double-counted.</p>
+
+                <h3>High Integrity vs Low Integrity</h3>
+                <p>Not all credits are equal. The voluntary carbon market spans a wide spectrum of quality, and the difference matters for your business's reputation and regulatory standing.</p>
+
+                <div class="integrity-grid">
+                    <div class="integrity-col good">
+                        <span class="integrity-col-badge">✓ High Integrity</span>
+                        <h4>What Fathom Sources</h4>
+                        <ul>
+                            <li><span style="color:var(--sage);">✓</span> Third-party verified under rigorous standards (Verra VCS, Gold Standard)</li>
+                            <li><span style="color:var(--sage);">✓</span> Additional — the project wouldn't happen without carbon finance</li>
+                            <li><span style="color:var(--sage);">✓</span> Permanent or with robust risk buffers for reversal</li>
+                            <li><span style="color:var(--sage);">✓</span> Publicly traceable in a recognised registry</li>
+                            <li><span style="color:var(--sage);">✓</span> Community and biodiversity co-benefits documented</li>
+                            <li><span style="color:var(--sage);">✓</span> Not double-counted or double-sold</li>
+                        </ul>
+                    </div>
+                    <div class="integrity-col bad">
+                        <span class="integrity-col-badge">⚠ Low Integrity — Red Flags</span>
+                        <h4>What to Avoid</h4>
+                        <ul>
+                            <li><span style="color:var(--earth);">✗</span> Self-certified with no independent verification</li>
+                            <li><span style="color:var(--earth);">✗</span> Based on avoided emissions that were never at risk</li>
+                            <li><span style="color:var(--earth);">✗</span> No permanence guarantee — forests felled, projects abandoned</li>
+                            <li><span style="color:var(--earth);">✗</span> No traceable retirement in a public registry</li>
+                            <li><span style="color:var(--earth);">✗</span> Suspiciously cheap with no explanation</li>
+                            <li><span style="color:var(--earth);">✗</span> Projects that harm local communities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Why Bundled Portfolios Outperform Single Credits</h3>
+                <p>Just as a well-managed investment portfolio spreads risk across asset classes, a bundled carbon portfolio spreads your offset across different project types, geographies, and methodologies. No single project type is perfect — forestry faces wildfire risk, soil carbon can reverse, renewable energy becomes less additional as grids decarbonise. By blending project types, you benefit from the co-impacts of each while reducing exposure to the specific risks of any one. Our curated portfolios are built with this diversification logic from the start.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY GO CARBON NEUTRAL -->
+    <section id="why-carbon-neutral" class="resource-section">
+        <div class="resource-container">
+            <div class="section-header" style="text-align:left; margin-bottom:0;">
+                <div class="section-label">The Case for Action</div>
+                <h2 class="section-title">Why Go Carbon Neutral?</h2>
+            </div>
+            <div class="resource-body">
+                <p>Carbon neutrality isn't just good for the planet — it's increasingly essential for business. Here's why forward-thinking SMEs are acting now rather than waiting for regulation to force their hand.</p>
+
+                <div class="resource-cards">
+                    <div class="resource-card">
+                        <span class="resource-card-icon">🏗️</span>
+                        <h4>Become Attractive in Supply Chains</h4>
+                        <p>Large corporations face growing pressure to decarbonise their entire supply chains. When a multinational reviews suppliers, carbon neutrality can be the deciding factor. SMEs with verified carbon credentials are far more likely to win and retain contracts with major buyers.</p>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card-icon">🤝</span>
+                        <h4>Build Consumer Trust</h4>
+                        <p>Third-party verified carbon neutrality gives your brand something tangible — a credible, independent signal that you take sustainability seriously. Unlike marketing claims, a verified certificate is backed by evidence, deepening loyalty and attracting values-aligned customers.</p>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card-icon">⚖️</span>
+                        <h4>Get Ahead of Regulation</h4>
+                        <p>The UK, EU, and other major markets are rolling out mandatory Scope 3 disclosure requirements, supply chain due diligence laws, and carbon border adjustment mechanisms. Businesses that act voluntarily today will find compliance far less disruptive — and far less costly.</p>
+                    </div>
+                    <div class="resource-card">
+                        <span class="resource-card-icon">💰</span>
+                        <h4>Unlock Financial Benefits</h4>
+                        <p>Going carbon neutral often reveals operational cost savings — energy efficiency, waste reduction, and leaner supply chains frequently pay for themselves. Many lenders and insurers are beginning to offer preferential terms to businesses with verified sustainability credentials.</p>
+                    </div>
+                </div>
+
+                <h3>It's the Right Thing to Do</h3>
+                <p>Beyond strategy and economics, there's a more fundamental reason: we are in a climate emergency, and every tonne of carbon that doesn't enter the atmosphere matters. As a business, you have the power to make a meaningful difference — not just by offsetting your own footprint, but by demonstrating to your industry, your customers, and your community that responsible business is possible. The most successful brands of the next decade will be those that led, not those that followed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="resource-section">
+        <div class="resource-container">
+            <div class="section-header" style="text-align:left; margin-bottom:0;">
+                <div class="section-label">Common Questions</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-category">Getting Started</div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">What does it mean to be carbon neutral?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>Carbon neutrality means that the total greenhouse gas emissions associated with your business — across Scope 1 (direct), Scope 2 (purchased energy), and Scope 3 (value chain) — are balanced by verified carbon removals or reductions elsewhere. In practice: measure your footprint, reduce emissions where possible, offset the remainder with verified credits retired in your name.</p>
+                        <p>It's important to note that carbon neutrality doesn't mean zero emissions. It's an accounting balance — every tonne you emit is matched by a verified tonne removed or avoided somewhere else. It is a recognised, credible milestone on the path to deeper decarbonisation.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">Why is your GHG inventory service free?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>We believe the cost of measurement should never be a barrier to sustainability action. SMEs are often priced out of the carbon consultancy market by large advisory firms. By providing GHG inventories at no charge, we lower the barrier to entry.</p>
+                        <p>Our business model is built on carbon credit sales. When you choose to offset through us, we earn a margin on the credits — but only if they deliver genuine value and you trust us enough to return. This aligns our incentives with yours.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">How long does a GHG inventory take?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>For most SMEs, a comprehensive Scope 1, 2, and 3 inventory takes two to four weeks from the point we receive your data. The timeline depends largely on how readily available your data is — energy bills, supplier information, freight data, and so on. We'll guide you through exactly what's needed and make collection as straightforward as possible.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-category">Carbon Credits &amp; Offsets</div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">Are carbon credits just "greenwashing"?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>There has been legitimate scrutiny of the carbon credit market, and some credits — particularly older forestry credits and poorly evidenced projects — have rightly faced criticism. However, high-integrity credits verified under Verra's Verified Carbon Standard or the Gold Standard represent genuine, independently audited emission reductions.</p>
+                        <p>Greenwashing involves vague claims without evidence. Verified carbon credits involve independent measurement, third-party audit, public registry retirement, and permanent record-keeping. When you offset with Fathom, every tonne is publicly traceable and permanently retired in your name.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">What is "additionality" and why does it matter?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>Additionality is the principle that a carbon credit should only represent an emission reduction that wouldn't have happened without the revenue from that credit — the carbon finance has to be the reason the project exists. If a wind farm was already commercially viable without carbon revenue, purchasing credits from it doesn't cause any additional carbon to be reduced. All projects on the Fathom platform are independently assessed for additionality as part of their certification process.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">How do you ensure credits aren't double-counted?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>Every credit we source is registered in a public registry — either the Verra registry or the Gold Standard Impact Registry. When we retire a credit on your behalf, it is permanently cancelled with your organisation's name recorded. It can never be sold to another buyer or used again. We provide you with a retirement certificate including the registry reference number, project details, vintage year, and tonnes retired — independently verifiable at any time.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-category">Pricing &amp; Purchasing</div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">How much do carbon credits cost?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>Our four portfolios are priced between $12 and $27 per tonne CO₂e, depending on project type, certification standard, and co-benefit profile. You can see the exact price for each portfolio in our purchase section. For most SMEs, the annual offsetting cost is smaller than you might expect — often comparable to a few months of a single business subscription service.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">What do I receive after purchasing?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>Within 24 hours of purchase, you'll receive a certificate of offset showing the tonnes retired, the projects from which credits were sourced, the registry retirement reference number, and the date of retirement. This certificate is the documentation you need to substantiate your carbon neutral claim. Subscription customers also receive annual summary reporting to support sustainability communications.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-category">Certification &amp; Claims</div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">What certification standard do you support?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>We support businesses in achieving PAS 2060, the internationally recognised standard for carbon neutrality published by the British Standards Institution. Our service includes preparing the required Carbon Footprint Management Plan and Qualifying Explanatory Statement — the core documentation required under PAS 2060 — at no additional charge.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">Does carbon neutral mean I don't need to reduce emissions?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>No — and we're firm on this point. Carbon neutrality achieved entirely through offsets, with no emissions reduction effort, is not a credible long-term strategy and is increasingly scrutinised by regulators and media. Responsible carbon neutrality means genuinely reducing emissions first and offsetting the residual. That's why our free reduction strategy service is a core part of what we offer, not an afterthought.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-category">Working with Fathom</div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">What size and type of businesses do you work with?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>We work exclusively with small and medium enterprises — typically businesses with between 5 and 500 employees. Our focus is on making best-in-class carbon services accessible to businesses that have historically been underserved: independent brands, growing e-commerce businesses, manufacturers, and service businesses who want to do the right thing but have been priced out of the market.</p>
+                        <p>We have deep expertise in fashion, apparel, jewellery, accessories, and consumer goods, but our methodology applies across most SME sectors including hospitality, professional services, food and beverage, and light manufacturing.</p>
+                    </div></div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span class="faq-q-text">How do I get started?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">
+                        <p>The simplest starting point is to request a free consultation using the button below. We'll schedule a 30-minute introductory call to understand your business, explain our process, and discuss what a GHG inventory would involve for you specifically. There's no obligation and no cost. If you'd prefer to start independently, our carbon calculator gives you a rough estimate of your footprint in under 10 minutes.</p>
+                    </div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Calculator CTA inside resources -->
+        <section id="res-calculator" class="resource-section" style="background:var(--forest); color:var(--cream);">
+            <div class="resource-container" style="text-align:center;">
+                <div class="section-label" style="color:var(--accent);">Free Tool</div>
+                <h2 class="section-title" style="color:var(--cream); margin-bottom:1rem;">Estimate Your Footprint</h2>
+                <p style="color:rgba(244,241,234,0.75); max-width:520px; margin:0 auto 2.5rem;">Use our GHG calculator to get an immediate estimate of your business emissions — no sign-up required.</p>
+                <button onclick="switchPage('home'); setTimeout(()=>document.getElementById('calculator').scrollIntoView({behavior:'smooth'}),120);" class="cta-button" style="display:inline-block; padding:1rem 2.5rem; font-size:1rem;">Open Calculator</button>
+            </div>
+        </section>
+
+        <!-- Resources CTA -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to begin your carbon neutral journey?</h2>
+                <p>Join hundreds of forward-thinking SMEs making a real difference.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn-primary">Schedule Consultation</a>
+                    <button onclick="switchPage('home');" class="btn-secondary" style="cursor:pointer;">← Back to Home</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <!-- ═══════════════ END RESOURCES PAGE ═══════════════ -->
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>Fathom</h3>
+                <p>We're making carbon neutrality accessible for small and medium enterprises by providing free GHG inventories and connecting businesses with verified carbon credits tailored to their industry.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">GHG Inventories</a></li>
+                    <li><a href="#services">Carbon Offsets</a></li>
+                    <li><a href="#services">Reduction Strategy</a></li>
+                    <li><a href="#services">Certification</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#contact">About Us</a></li>
+                    <li><a href="#purchase">Our Projects</a></li>
+                    <li><a href="#contact">Team</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#calculator">Carbon Calculator</a></li>
+                    <li><a href="#" onclick="switchPage('resources'); scrollToResource('what-are-credits'); return false;">What Are Carbon Credits?</a></li>
+                    <li><a href="#" onclick="switchPage('resources'); scrollToResource('why-carbon-neutral'); return false;">Why Go Carbon Neutral?</a></li>
+                    <li><a href="#" onclick="switchPage('resources'); scrollToResource('faq'); return false;">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Fathom. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Page switching
+        function switchPage(page) {
+            const home = document.getElementById('page-home');
+            const resources = document.getElementById('page-resources');
+            const footer = document.querySelector('footer');
+            if (page === 'resources') {
+                home.style.display = 'none';
+                resources.style.display = 'block';
+                footer.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                resources.style.display = 'none';
+                home.style.display = 'block';
+                footer.style.display = '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function scrollToResource(id) {
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 80);
+        }
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+            });
+        });
+
+        // Scroll animation for process steps
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.process-step').forEach((el) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Purchase Credits Functions
+        let selectedPortfolio = 'canopy';
+        let purchaseType = 'onetime';
+
+        const PORTFOLIO_DATA = {
+            canopy: {
+                name: "The Canopy Shield",
+                tagline: "Standing Forests. Unwavering Protection.",
+                icon: "🌳",
+                color: "#2D5016",
+                accent: "#7CB518",
+                lightBg: "#F0F7E6",
+                theme: "Tropical Forest Defense",
+                portfolioPrice: 12.00, at the lowest cost-per-ton. This portfolio is anchored in the world's most critical tropical forest biomes — Borneo peatlands, Peruvian Amazon, and Indonesian rainforest — where the threat of deforestation is highest and the ecological stakes are greatest. Every credit here directly stops a chainsaw.",
+                projects: [
+                    { name: "Kowen Antami REDD+", location: "📍 Peru", registry: "Verra VCS #5394", type: "REDD+", highlight: "Protects Yanachaga Chemillén National Park via indigenous-led stewardship. Article 6-compliant; Singapore government-contracted.", badge: "Gov't Backed" },
+                    { name: "Together for Forests REDD+", location: "📍 Madre de Dios, Peru", registry: "Verra VCS #5442", type: "REDD+", highlight: "Secures land tenure for smallholder forest owners across three provinces while deploying early-warning deforestation monitoring systems.", badge: "Article 6" },
+                    { name: "Rimba Raya Biodiversity Reserve", location: "📍 Central Kalimantan, Indonesia", registry: "Verra VCS #674", type: "REDD+ Peatland", highlight: "First REDD+ project with triple certification: VCS + CCB + Gold Standard. Protects 64,000 ha of orangutan habitat from palm oil conversion.", badge: "Triple Certified" },
+                    { name: "Katingan Peatland Restoration", location: "📍 Central Kalimantan, Indonesia", registry: "Verra VCS #1967", type: "REDD+ Peatland", highlight: "One of the world's largest REDD+ projects, protecting 150,000 ha of peat swamp forest and supporting indigenous Dayak communities.", badge: "Largest in Class" },
+                ]
+            },
+            horizon: {
+                name: "The Open Horizon",
+                tagline: "Soil. Grass. Breath.",
+                icon: "🌾",
+                color: "#6B4C11",
+                accent: "#D4A017",
+                lightBg: "#FDF7EA",
+                theme: "Grassland & Soil Carbon",
+                portfolioPrice: 17.00,
+                description: "A portfolio for buyers seeking sequestration that happens quietly, at scale, beneath the ground. Grassland and soil carbon projects work across massive land areas — Pampas ranches, African savannahs, North American prairies — converting degraded land into carbon-dense ecosystems while supporting smallholder farmers and ranchers. Low controversy, high co-benefits.",
+                projects: [
+                    { name: "Boomitra Grassland Restoration", location: "📍 Pampas, Paraguay", registry: "Verra VCS #3291", type: "Soil Carbon / Grassland", highlight: "Rotational grazing across 76,355 acres improves soil organic carbon. Registered with Verra in June 2025; Singapore-government-contracted through 2030.", badge: "Gov't Backed" },
+                    { name: "Northern Kenya Grassland Carbon Project", location: "📍 Northern Kenya", registry: "Verra VCS", type: "Grassland Conservation", highlight: "Developed by The Nature Conservancy, this project protects vast arid savannahs and supports pastoral Maasai communities through sustainable grazing practices.", badge: "TNC Developed" },
+                    { name: "U.S. Southeast IFM Credits (ACR)", location: "📍 Southeastern USA", registry: "American Carbon Registry", type: "Improved Forest Management", highlight: "Aggregated IFM credits from privately-owned timberlands in the U.S. South. Conservative ACR protocols; older vintages available at the lower end of the price range.", badge: "ACR Certified" },
+                ]
+            },
+            community: {
+                name: "The Human Root",
+                tagline: "When communities thrive, forests survive.",
+                icon: "🤝",
+                color: "#1A3A5C",
+                accent: "#3B9EE3",
+                lightBg: "#EAF4FD",
+                theme: "Community-Led Climate Action",
+                portfolioPrice: 27.00, who want their carbon dollars to land in the hands of the people who live closest to the land. Every project here is either indigenous-led, community-owned, or specifically structured to route benefit-sharing directly to local households. High ESG storytelling value. Strong social SDG alignment. These are the credits that give your sustainability report a face.",
+                projects: [
+                    { name: "Mikoko Pamoja – Mangroves Together", location: "📍 Gazi Bay, Kenya", registry: "Plan Vivo Standard", type: "Blue Carbon / Mangrove", highlight: "The world's first community-led blue carbon project. Revenue funds school books, clean water, and healthcare for 3,500 residents. Recognized by the UNFCCC and UNDP Equator Prize.", badge: "World's First" },
+                    { name: "Humbo Ethiopia Assisted Natural Regeneration", location: "📍 South-Western Ethiopia", registry: "Gold Standard GS #10220", type: "ARR / Agroforestry", highlight: "World Vision Australia restores 2,724 ha of degraded land through seven community cooperatives with legal land ownership. Gold-certified global model for farmer-managed regeneration.", badge: "Gold Standard" },
+                    { name: "Kowen Antami REDD+", location: "📍 Peru", registry: "Verra VCS #5394", type: "REDD+ / Indigenous", highlight: "Explicitly structured around indigenous community governance of Yanachaga Chemillén National Park, with Free, Prior, and Informed Consent embedded in project design.", badge: "Indigenous-Led" },
+                    { name: "San Crisanto Mangrove Restoration", location: "📍 Yucatán, Mexico", registry: "Climate Action Reserve (CAR)", type: "Blue Carbon / Mangrove", highlight: "The first mangrove carbon project in Mexico registered under CAR's Mexico Forest Protocol. Community ecotourism and canal maintenance support ongoing biodiversity monitoring.", badge: "First of Kind" },
+                ]
+            },
+            restoration: {
+                name: "The Green Return",
+                tagline: "From degraded to thriving. One hectare at a time.",
+                icon: "🌱",
+                color: "#1C4A3A",
+                accent: "#3EBB8A",
+                lightBg: "#E8F7F2",
+                theme: "Land Restoration & Reforestation",
+                portfolioPrice: 19.00,
+                risk: "Low",
+                description: "The most forward-looking portfolio in this range. These projects don't just protect what exists — they actively rebuild what was lost. From Ghana's degraded cocoa belt to Ethiopian highlands, these ARR and landscape restoration projects produce removal credits (not just avoidance), which are increasingly preferred by buyers aligning with SBTi net-zero standards. Expect prices to rise as removal premiums grow.",
+                projects: [
+                    { name: "Kwahu Landscape Restoration", location: "📍 Kwahu, Ghana", registry: "Verra VCS #5432", type: "ARR / Agroforestry", highlight: "A 40-year reforestation initiative restoring 51,000 ha of degraded tropical forest through native polyculture planting and agroforestry. GenZero (Temasek-backed) developer. Singapore-contracted.", badge: "40-Year Project" },
+                    { name: "Humbo Ethiopia Assisted Natural Regeneration", location: "📍 South-Western Ethiopia", registry: "Gold Standard GS #10220", type: "ARR", highlight: "Restores indigenous tree species across 2,724 ha using Farmer Managed Natural Regeneration. A globally-cited model for community ARR at low cost.", badge: "Removal Credit" },
+                    { name: "Together for Forests REDD+ (Agroforestry)", location: "📍 Madre de Dios, Peru", registry: "Verra VCS #5442", type: "REDD+ / ARR Hybrid", highlight: "Integrates certified deforestation-free agroforestry as a key activity, making it a hybrid avoidance-plus-removal project with strong permanence characteristics.", badge: "Hybrid" },
+                    { name: "Boomitra Grassland Restoration", location: "📍 Pampas, Paraguay", registry: "Verra VCS #3291", type: "Soil Carbon Removal", highlight: "Actively rebuilds soil organic carbon across previously degraded ranchland. A removal-class credit at near-REDD+ prices — a rare combination in the $3–6 range.", badge: "Removal Credit" },
+                ]
+            }
+        };
+
+        const RISK_COLOR = { "Low": "#3EBB8A", "Low–Medium": "#D4A017", "Medium": "#E07B39" };
+
+        function togglePurchaseType(type) {
+            purchaseType = type;
+            document.getElementById('onetimeBtn').classList.toggle('active', type === 'onetime');
+            document.getElementById('subscriptionBtn').classList.toggle('active', type === 'subscription');
+            updatePurchasePrice();
+        }
+
+        function selectPortfolio(id) {
+            selectedPortfolio = id;
+            document.querySelectorAll('.portfolio-option').forEach(o => o.classList.remove('selected'));
+            document.querySelector(`[data-portfolio="${id}"]`).classList.add('selected');
+            document.getElementById(id).checked = true;
+            updatePurchasePrice();
+            renderPortfolioDetail(id);
+        }
+
+        function renderPortfolioDetail(id) {
+            const p = PORTFOLIO_DATA[id];
+            const panel = document.getElementById('portfolio-detail');
+            if (!p) { panel.style.display = 'none'; return; }
+
+            const projectsHTML = p.projects.map(proj => `
+                <div class="pdp-project" style="background:${p.lightBg}; border:1px solid ${p.accent}30;">
+                    <div class="pdp-project-badge" style="background:${p.color}; color:${p.accent};">${proj.badge}</div>
+                    <div class="pdp-project-name" style="color:${p.color};">${proj.name}</div>
+                    <div class="pdp-project-chips">
+                        <span class="pdp-project-location">${proj.location}</span>
+                        <span class="pdp-project-type" style="background:${p.color}18; color:${p.color};">${proj.type}</span>
+                    </div>
+                    <p class="pdp-project-highlight">${proj.highlight}</p>
+                    <div class="pdp-project-footer">
+                        <span class="pdp-project-registry">${proj.registry}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            panel.innerHTML = `
+                <div style="background:${p.color};">
+                    <div class="pdp-header">
+                        <div class="pdp-tagline" style="color:${p.accent};">${p.tagline}</div>
+                        <div class="pdp-title">${p.icon} ${p.name}</div>
+                        <div class="pdp-meta">
+                            <div class="pdp-meta-item">
+                                <span class="pdp-meta-label">Portfolio Price</span>
+                                <span class="pdp-meta-value" style="color:${p.accent};">$${p.portfolioPrice.toFixed(2)} / tonne</span>
+                            </div>
+                            <div class="pdp-meta-item">
+                                <span class="pdp-meta-label">Portfolio Risk</span>
+                                <span class="pdp-meta-value" style="color:${RISK_COLOR[p.risk] || '#fff'};">${p.risk}</span>
+                            </div>
+                            <div class="pdp-meta-item">
+                                <span class="pdp-meta-label">Theme</span>
+                                <span class="pdp-meta-value" style="color:rgba(255,255,255,0.7); font-size:0.8rem;">${p.theme}</span>
+                            </div>
+                        </div>
+                        <p class="pdp-desc">${p.description}</p>
+                    </div>
+                    <div class="pdp-projects">${projectsHTML}</div>
+                    <div class="pdp-footer-note">Registries: Verra VCS · Gold Standard · Plan Vivo · ACR · Climate Action Reserve &nbsp;·&nbsp; March 2026</div>
+                </div>
+            `;
+            panel.style.display = 'block';
+        }
+
+        function updatePurchasePrice() {
+            const tonnes = parseFloat(document.getElementById('tonnesAmount').value) || 0;
+            const pricePerTonne = (PORTFOLIO_DATA[selectedPortfolio] || PORTFOLIO_DATA.canopy).portfolioPrice;
+            const basePrice = tonnes * pricePerTonne;
+            
+            document.getElementById('tonnesDisplay').textContent = tonnes;
+            document.getElementById('basePrice').textContent = basePrice.toFixed(0);
+            document.getElementById('totalPrice').textContent = basePrice.toFixed(0);
+            
+            if (purchaseType === 'subscription') {
+                document.getElementById('billingFrequency').textContent = 'Total per month';
+                document.getElementById('purchaseBtnText').textContent = 'Subscribe Monthly';
+            } else {
+                document.getElementById('billingFrequency').textContent = 'Total';
+                document.getElementById('purchaseBtnText').textContent = 'Purchase Carbon Credits';
+            }
+        }
+
+        function proceedToPurchase() {
+            const tonnes = parseFloat(document.getElementById('tonnesAmount').value) || 0;
+            const p = PORTFOLIO_DATA[selectedPortfolio] || PORTFOLIO_DATA.canopy;
+            const price = tonnes * p.portfolioPrice;
+            
+            if (tonnes <= 0) {
+                alert('Please enter a valid number of tonnes to offset.');
+                return;
+            }
+            
+            alert(`Proceeding to purchase:\n\n${tonnes} tonnes CO₂e\nPortfolio: ${p.name}\nType: ${purchaseType}\nTotal: $${price.toFixed(0)}\n\nIn production, this would redirect to a secure checkout.`);
+        }
+
+        // Product management
+        let productIndex = 1;
+
+        function toggleMaterialsDropdown(index) {
+            const dropdown = document.getElementById(`materialsDropdown${index}`);
+            const arrow = dropdown.previousElementSibling.querySelector('.dropdown-arrow');
+            
+            dropdown.classList.toggle('open');
+            arrow.classList.toggle('open');
+        }
+
+        function addProduct() {
+            const container = document.getElementById('productsContainer');
+            const newProduct = document.querySelector('.product-entry').cloneNode(true);
+            
+            // Update index
+            newProduct.setAttribute('data-product-index', productIndex);
+            newProduct.querySelector('h5').textContent = `Product ${productIndex + 1}`;
+            newProduct.querySelector('.remove-product-btn').style.display = 'inline-block';
+            newProduct.querySelector('.remove-product-btn').setAttribute('onclick', `removeProduct(${productIndex})`);
+            
+            // Clear values and update data-index
+            newProduct.querySelectorAll('input').forEach(input => {
+                input.value = '';
+                input.setAttribute('data-index', productIndex);
+            });
+            
+            container.appendChild(newProduct);
+            productIndex++;
+            
+            // Show remove buttons if more than 1 product
+            updateRemoveButtons();
+        }
+
+        function removeProduct(index) {
+            const product = document.querySelector(`[data-product-index="${index}"]`);
+            if (product) {
+                product.remove();
+                updateRemoveButtons();
+            }
+        }
+
+        function updateRemoveButtons() {
+            const products = document.querySelectorAll('.product-entry');
+            products.forEach((product, idx) => {
+                const removeBtn = product.querySelector('.remove-product-btn');
+                if (products.length > 1) {
+                    removeBtn.style.display = 'inline-block';
+                } else {
+                    removeBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Carbon Credit Portfolios
+        const CARBON_PORTFOLIOS = {
+            apparel: {
+                name: "Sustainable Fashion Blend",
+                badge: "Recommended for Apparel",
+                description: "Curated for fashion brands, this portfolio combines regenerative agriculture projects that restore soil health with forest conservation initiatives.",
+                projects: ["Regenerative Cotton Farming", "Soil Carbon Sequestration", "Forest Conservation", "Renewable Energy"],
+                cost: 12 // per tonne
+            },
+            jewelry: {
+                name: "Precious Metals Restoration Portfolio",
+                badge: "Recommended for Jewelry",
+                description: "Tailored for jewelry brands, focusing on reforestation and marine conservation to offset the high-impact mining typically associated with precious metals.",
+                projects: ["Rainforest Reforestation", "Marine Conservation", "Mine Rehabilitation", "Direct Air Capture"],
+                cost: 15
+            },
+            accessories: {
+                name: "Sustainable Goods Portfolio",
+                badge: "Recommended for Accessories",
+                description: "A balanced portfolio combining renewable energy, reforestation, and ocean plastic removal projects.",
+                projects: ["Ocean Plastic Removal", "Wind Energy Projects", "Mangrove Restoration", "Composting Programs"],
+                cost: 11
+            },
+            mixed: {
+                name: "Comprehensive Impact Portfolio",
+                badge: "Recommended for Mixed Brands",
+                description: "A diversified portfolio that addresses multiple impact areas across your product range.",
+                projects: ["Regenerative Agriculture", "Forest Conservation", "Renewable Energy", "Ocean Health"],
+                cost: 13
+            }
+        };
+
+        function displayCarbonPortfolio(brandType, totalEmissions) {
+            const portfolio = CARBON_PORTFOLIOS[brandType] || CARBON_PORTFOLIOS.mixed;
+            const estimatedCost = (totalEmissions * portfolio.cost).toFixed(0);
+            
+            const portfolioHTML = `
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <div>
+                            <div class="portfolio-name">${portfolio.name}</div>
+                            <div class="portfolio-badge">${portfolio.badge}</div>
+                        </div>
+                    </div>
+                    <p class="portfolio-description">${portfolio.description}</p>
+                    <div class="portfolio-projects">
+                        ${portfolio.projects.map(project => `<span class="project-tag">${project}</span>`).join('')}
+                    </div>
+                    <div class="offset-amount">
+                        <span class="offset-label">To offset ${totalEmissions.toFixed(1)} tonnes CO₂e:</span>
+                        <span class="offset-value">~$${Number(estimatedCost).toLocaleString()}</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('creditPortfolio').innerHTML = portfolioHTML;
+        }
+
+        // Emission Factors (kg CO2e per kg of material unless otherwise noted)
+        const EMISSION_FACTORS = {
+            materials: {
+                cottonOrganic: 2.0,
+                cottonConv: 5.5,
+                linen: 1.7,
+                hemp: 1.5,
+                polyester: 6.0,
+                polyesterRec: 3.0,
+                nylon: 7.0,
+                acrylic: 5.5,
+                spandex: 8.0,
+                wool: 22.0,
+                silk: 11.0,
+                viscose: 5.0,
+                lyocell: 2.5,
+                modal: 3.0,
+                leather: 17.0,
+                suede: 18.0,
+                veganLeather: 7.5,
+                goldNew: 20000,
+                goldRec: 100,
+                silverNew: 200,
+                silverRec: 10,
+                brass: 3.5,
+                steel: 2.5,
+                gemstones: 15.0,
+                pearls: 5.0,
+                rubber: 3.0,
+                eva: 4.5,
+                cork: 1.2
+            },
+            transport: {
+                sea: 0.01, // kg CO2e per tonne-km
+                air: 1.1,
+                truck: 0.1,
+                lastMileStandard: 0.5, // per delivery
+                lastMileExpress: 1.2,
+                lastMileOvernight: 2.0
+            },
+            packaging: {
+                'cardboard-recycled': 1.3,
+                'cardboard-virgin': 1.8,
+                'plastic-poly': 6.0,
+                'plastic-recycled': 3.5,
+                'compostable': 1.5
+            },
+            manufacturing: {
+                baseEnergy: 2.0, // kg CO2e per kg product for standard manufacturing
+                gridMultiplier: {
+                    'grid': 1.0,
+                    'renewable': 0.1,
+                    'mixed': 0.55
+                }
+            },
+            digital: {
+                pageView: 0.0005, // kg CO2e per page view
+                marketingSpend: 0.15 // kg CO2e per dollar spent (server/platform energy)
+            }
+        };
+
+        // Detailed LCA Calculation with ACTUAL MATH
+        async function calculateDetailedLCA() {
+            const brandType = document.getElementById('brandType').value;
+            
+            // Collect product data
+            const products = [];
+            let totalAnnualUnits = 0;
+            
+            document.querySelectorAll('.product-entry').forEach((productEl) => {
+                const index = productEl.getAttribute('data-product-index');
+                const product = {
+                    name: productEl.querySelector(`.productName[data-index="${index}"]`).value || 'Unnamed Product',
+                    annualUnits: parseFloat(productEl.querySelector(`.annualUnits[data-index="${index}"]`).value) || 0,
+                    productWeight: parseFloat(productEl.querySelector(`.productWeight[data-index="${index}"]`).value) || 0,
+                    materials: {
+                        cottonOrganic: parseFloat(productEl.querySelector(`.matCottonOrganic[data-index="${index}"]`).value) || 0,
+                        cottonConv: parseFloat(productEl.querySelector(`.matCottonConv[data-index="${index}"]`).value) || 0,
+                        linen: parseFloat(productEl.querySelector(`.matLinen[data-index="${index}"]`)?.value) || 0,
+                        hemp: parseFloat(productEl.querySelector(`.matHemp[data-index="${index}"]`)?.value) || 0,
+                        polyester: parseFloat(productEl.querySelector(`.matPolyester[data-index="${index}"]`).value) || 0,
+                        polyesterRec: parseFloat(productEl.querySelector(`.matPolyesterRec[data-index="${index}"]`).value) || 0,
+                        nylon: parseFloat(productEl.querySelector(`.matNylon[data-index="${index}"]`)?.value) || 0,
+                        acrylic: parseFloat(productEl.querySelector(`.matAcrylic[data-index="${index}"]`)?.value) || 0,
+                        spandex: parseFloat(productEl.querySelector(`.matSpandex[data-index="${index}"]`)?.value) || 0,
+                        wool: parseFloat(productEl.querySelector(`.matWool[data-index="${index}"]`).value) || 0,
+                        silk: parseFloat(productEl.querySelector(`.matSilk[data-index="${index}"]`)?.value) || 0,
+                        viscose: parseFloat(productEl.querySelector(`.matViscose[data-index="${index}"]`)?.value) || 0,
+                        lyocell: parseFloat(productEl.querySelector(`.matLyocell[data-index="${index}"]`)?.value) || 0,
+                        modal: parseFloat(productEl.querySelector(`.matModal[data-index="${index}"]`)?.value) || 0,
+                        leather: parseFloat(productEl.querySelector(`.matLeather[data-index="${index}"]`).value) || 0,
+                        suede: parseFloat(productEl.querySelector(`.matSuede[data-index="${index}"]`)?.value) || 0,
+                        veganLeather: parseFloat(productEl.querySelector(`.matVeganLeather[data-index="${index}"]`)?.value) || 0,
+                        goldNew: parseFloat(productEl.querySelector(`.matGoldNew[data-index="${index}"]`).value) || 0,
+                        goldRec: parseFloat(productEl.querySelector(`.matGoldRec[data-index="${index}"]`).value) || 0,
+                        silverNew: parseFloat(productEl.querySelector(`.matSilverNew[data-index="${index}"]`).value) || 0,
+                        silverRec: parseFloat(productEl.querySelector(`.matSilverRec[data-index="${index}"]`).value) || 0,
+                        brass: parseFloat(productEl.querySelector(`.matBrass[data-index="${index}"]`)?.value) || 0,
+                        steel: parseFloat(productEl.querySelector(`.matSteel[data-index="${index}"]`)?.value) || 0,
+                        gemstones: parseFloat(productEl.querySelector(`.matGemstones[data-index="${index}"]`).value) || 0,
+                        pearls: parseFloat(productEl.querySelector(`.matPearls[data-index="${index}"]`)?.value) || 0,
+                        rubber: parseFloat(productEl.querySelector(`.matRubber[data-index="${index}"]`)?.value) || 0,
+                        eva: parseFloat(productEl.querySelector(`.matEVA[data-index="${index}"]`)?.value) || 0,
+                        cork: parseFloat(productEl.querySelector(`.matCork[data-index="${index}"]`)?.value) || 0
+                    }
+                };
+                
+                if (product.annualUnits > 0) {
+                    products.push(product);
+                    totalAnnualUnits += product.annualUnits;
+                }
+            });
+
+            if (products.length === 0 || totalAnnualUnits === 0) {
+                alert('Please enter at least one product with annual units sold.');
+                return;
+            }
+
+            // Collect shared data
+            const data = {
+                brandType: brandType,
+                products: products,
+                totalAnnualUnits: totalAnnualUnits,
+                mfgLocation: document.getElementById('mfgLocation').value,
+                energyMix: document.getElementById('energyMix').value,
+                factoryTransport: document.getElementById('factoryTransport').value,
+                factoryDistance: parseFloat(document.getElementById('factoryDistance').value) || 0,
+                warehouseLocation: document.getElementById('warehouseLocation').value,
+                customerBase: document.getElementById('customerBase').value,
+                lastMile: document.getElementById('lastMile').value,
+                primaryPackaging: document.getElementById('primaryPackaging').value,
+                packagingWeight: parseFloat(document.getElementById('packagingWeight').value) || 0,
+                ecomPlatform: document.getElementById('ecomPlatform').value,
+                monthlyVisitors: parseFloat(document.getElementById('monthlyVisitors').value) || 0,
+                marketingSpend: parseFloat(document.getElementById('marketingSpend').value) || 0,
+                returnRate: parseFloat(document.getElementById('returnRate').value) || 0,
+                resoldRate: parseFloat(document.getElementById('resoldRate').value) || 0
+            };
+
+            const btn = document.getElementById('detailedCalcBtn');
+            btn.disabled = true;
+            btn.querySelector('.btn-text').style.display = 'none';
+            btn.querySelector('.btn-loader').style.display = 'inline';
+
+            try {
+                let materialsEmissions = 0;
+                
+                // CALCULATE MATERIALS for each product
+                products.forEach(product => {
+                    const totalWeight = product.productWeight * product.annualUnits / 1000; // g to kg
+                    
+                    for (const [material, percentage] of Object.entries(product.materials)) {
+                        if (percentage > 0) {
+                            const materialWeight = totalWeight * (percentage / 100);
+                            materialsEmissions += materialWeight * EMISSION_FACTORS.materials[material];
+                        }
+                    }
+                    
+                    // Add manufacturing energy per product
+                    const mfgEnergy = totalWeight * EMISSION_FACTORS.manufacturing.baseEnergy * 
+                                     EMISSION_FACTORS.manufacturing.gridMultiplier[data.energyMix];
+                    materialsEmissions += mfgEnergy;
+                });
+                
+                materialsEmissions = materialsEmissions / 1000; // to tonnes
+
+                // CALCULATE TRANSPORTATION
+                let transportEmissions = 0;
+                const totalWeight = products.reduce((sum, p) => sum + (p.productWeight * p.annualUnits), 0) / 1000; // total kg
+                
+                const factoryWeightKm = totalWeight * data.factoryDistance * 1.60934;
+                const transportMode = data.factoryTransport === 'mixed' ? 'sea' : data.factoryTransport;
+                transportEmissions += factoryWeightKm * EMISSION_FACTORS.transport[transportMode];
+                
+                const lastMilePerDelivery = {
+                    'standard': EMISSION_FACTORS.transport.lastMileStandard,
+                    'express': EMISSION_FACTORS.transport.lastMileExpress,
+                    'overnight': EMISSION_FACTORS.transport.lastMileOvernight,
+                    'mixed': (EMISSION_FACTORS.transport.lastMileStandard + EMISSION_FACTORS.transport.lastMileExpress) / 2
+                };
+                transportEmissions += data.totalAnnualUnits * lastMilePerDelivery[data.lastMile];
+                transportEmissions = transportEmissions / 1000;
+
+                // CALCULATE PACKAGING
+                let packagingEmissions = 0;
+                const totalPackagingWeight = data.packagingWeight * data.totalAnnualUnits / 1000;
+                packagingEmissions = totalPackagingWeight * EMISSION_FACTORS.packaging[data.primaryPackaging];
+                
+                if (document.getElementById('pkgTissue').checked) packagingEmissions += data.totalAnnualUnits * 0.005 * 1.3;
+                if (document.getElementById('pkgBox').checked) packagingEmissions += data.totalAnnualUnits * 0.1 * 1.8;
+                if (document.getElementById('pkgRibbon').checked) packagingEmissions += data.totalAnnualUnits * 0.01 * 6;
+                if (document.getElementById('pkgSticker').checked) packagingEmissions += data.totalAnnualUnits * 0.002 * 2;
+                if (document.getElementById('pkgCard').checked) packagingEmissions += data.totalAnnualUnits * 0.01 * 1.5;
+                if (document.getElementById('pkgBubble').checked) packagingEmissions += data.totalAnnualUnits * 0.02 * 6;
+                packagingEmissions = packagingEmissions / 1000;
+
+                // CALCULATE DIGITAL
+                let digitalEmissions = 0;
+                const annualPageViews = data.monthlyVisitors * 12 * 3;
+                digitalEmissions += annualPageViews * EMISSION_FACTORS.digital.pageView;
+                digitalEmissions += data.marketingSpend * EMISSION_FACTORS.digital.marketingSpend;
+                digitalEmissions = digitalEmissions / 1000;
+
+                // CALCULATE RETURNS
+                let returnsEmissions = 0;
+                const returnedUnits = data.totalAnnualUnits * (data.returnRate / 100);
+                const avgProductWeight = products.reduce((sum, p) => sum + (p.productWeight * p.annualUnits), 0) / data.totalAnnualUnits;
+                const disposedUnits = returnedUnits * (1 - data.resoldRate / 100);
+                
+                returnsEmissions += returnedUnits * lastMilePerDelivery[data.lastMile] * 2;
+                returnsEmissions += disposedUnits * (avgProductWeight / 1000) * 2;
+                returnsEmissions = returnsEmissions / 1000;
+
+                // TOTAL
+                const totalEmissions = materialsEmissions + transportEmissions + packagingEmissions + 
+                                      digitalEmissions + returnsEmissions;
+                const emissionsPerUnit = (totalEmissions * 1000) / data.totalAnnualUnits;
+
+                const result = {
+                    annualUnits: data.totalAnnualUnits,
+                    totalEmissions: totalEmissions,
+                    emissionsPerUnit: emissionsPerUnit,
+                    brandType: brandType,
+                    breakdown: {
+                        materials: materialsEmissions,
+                        transport: transportEmissions,
+                        packaging: packagingEmissions,
+                        digital: digitalEmissions,
+                        returns: returnsEmissions
+                    },
+                    insight: `Your carbon footprint is ${totalEmissions.toFixed(1)} tonnes CO2e annually across ${products.length} product${products.length > 1 ? 's' : ''}. The largest contributor is materials & production, accounting for ${(materialsEmissions/totalEmissions*100).toFixed(0)}% of total emissions.`,
+                    recommendations: []
+                };
+                
+                displayLCAResults(result);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Sorry, there was an error calculating your LCA. Please check your inputs and try again.');
+            } finally {
+                btn.disabled = false;
+                btn.querySelector('.btn-text').style.display = 'inline';
+                btn.querySelector('.btn-loader').style.display = 'none';
+            }
+        }
+
+        function displayLCAResults(result, brandName) {
+            const total = result.totalEmissions;
+            const breakdown = result.breakdown;
+            const perUnit = result.emissionsPerUnit || (total * 1000 / result.annualUnits);
+            
+            // Update AI insight
+            document.getElementById('aiInsight').textContent = result.insight;
+            
+            // Update totals
+            document.getElementById('totalEmissions').textContent = total.toFixed(1);
+            document.getElementById('perUnit').textContent = `${perUnit.toFixed(2)} kg CO₂e per unit`;
+            
+            // Calculate scope allocations
+            // Scope 1: Direct manufacturing (portion of materials production in owned facilities - assume 10%)
+            const scope1 = breakdown.materials * 0.1;
+            
+            // Scope 2: Purchased energy (digital operations)
+            const scope2 = breakdown.digital;
+            
+            // Scope 3: Everything else in value chain
+            const scope3Materials = breakdown.materials * 0.9; // Most materials production
+            const scope3Transport = breakdown.transport;
+            const scope3Packaging = breakdown.packaging;
+            const scope3Returns = breakdown.returns;
+            
+            const maxValue = Math.max(
+                scope1,
+                scope2,
+                scope3Materials,
+                scope3Transport,
+                scope3Packaging,
+                scope3Returns
+            );
+            
+            // Update scope displays
+            updateBreakdown('scope1', scope1, maxValue);
+            updateBreakdown('scope2', scope2, maxValue);
+            updateBreakdown('materials', scope3Materials, maxValue);
+            updateBreakdown('transport', scope3Transport, maxValue);
+            updateBreakdown('packaging', scope3Packaging, maxValue);
+            updateBreakdown('returns', scope3Returns, maxValue);
+
+            // Update comparisons
+            const trees = Math.round(total * 45);
+            const flights = Math.round(total / 0.9);
+            const smartphones = Math.round(total * 1000 / 80);
+
+            document.getElementById('trees').textContent = trees.toLocaleString();
+            document.getElementById('flights').textContent = flights.toLocaleString();
+            document.getElementById('smartphones').textContent = smartphones.toLocaleString();
+
+            // Show carbon credit portfolio
+            const brandType = result.brandType || 'mixed';
+            displayCarbonPortfolio(brandType, total);
+
+            // Show results, hide form
+            document.querySelector('.calculator-form').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('results').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+        }
+
+        function updateBreakdown(type, value, maxValue) {
+            const percentage = maxValue > 0 ? (value / maxValue) * 100 : 0;
+            
+            document.getElementById(type + 'Value').textContent = value.toFixed(2) + ' tonnes';
+            
+            const bar = document.getElementById(type + 'Bar');
+            setTimeout(() => {
+                bar.style.width = percentage + '%';
+            }, 100);
+        }
+
+        function resetCalculator() {
+            document.querySelector('.calculator-form').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            // Reset all bars
+            document.querySelectorAll('.breakdown-fill').forEach(bar => {
+                bar.style.width = '0';
+            });
+            
+            // Scroll to calculator
+            document.getElementById('calculator').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        // Initialise on load
+        selectPortfolio('canopy');
+        updatePurchasePrice();
+    </script>
+</body>
+</html>
